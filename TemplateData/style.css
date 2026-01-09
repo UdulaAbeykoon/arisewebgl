@@ -1,0 +1,198 @@
+/* Global Styles */
+body {
+    padding: 0;
+    margin: 0;
+    /* Deep space gradient background */
+    background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+    font-family: 'Outfit', sans-serif;
+    color: #f8fafc;
+    /* Slate-50 */
+    overflow: hidden;
+    /* Prevent scrolling */
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+}
+
+/* Main Container - The "Console" */
+#unity-container {
+    position: relative;
+    /* Changed from absolute centering to flex centering in body */
+    width: auto;
+    height: auto;
+    background: #000;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    /* Soft drop shadow */
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Desktop override logic matching JS class toggle */
+#unity-container.unity-desktop {
+    /* If we want to strictly follow the JS centering, we keep this. 
+       However, flex body is nicer. But JS sets TOP/LEFT/TRANSFORM.
+       We should override or work with it. 
+       The template JS does: div.style (usually empty in css?) 
+       Actually JS just toggles class. CSS does position.
+       Let's stick to the CSS absolute positioning to be safe with Unity's resize logic.
+    */
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#unity-container.unity-mobile {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    border: none;
+}
+
+#unity-canvas {
+    background: #000;
+    display: block;
+    width: 100%;
+    height: 100%;
+    outline: none;
+}
+
+/* Loading Overlay - Glassmorphism */
+#unity-loading-bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.9);
+    /* Dark slate with opacity */
+    backdrop-filter: blur(8px);
+    /* Blur effect */
+    display: flex;
+    /* IMPORTANT: JS toggles this to 'flex' now */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+    transition: opacity 0.5s ease;
+}
+
+/* Logo */
+#unity-logo {
+    width: 154px;
+    height: 130px;
+    background: url('unity-logo-light.png') no-repeat center;
+    /* If you want to replace the logo with text or hide it, do it here. 
+       For now, we use the light logo which looks better on dark. */
+    background-size: contain;
+    margin-bottom: 2rem;
+    filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.2));
+    /* Subtle blue glow */
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+/* Progress Bar Container */
+#unity-progress-bar-empty {
+    width: 280px;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 999px;
+    overflow: hidden;
+    position: relative;
+    /* Remove default image */
+    background-image: none !important;
+}
+
+/* Progress Bar Fill */
+#unity-progress-bar-full {
+    width: 0%;
+    height: 100%;
+    /* Cyan to Blue Gradient */
+    background: linear-gradient(90deg, #22d3ee 0%, #3b82f6 100%);
+    border-radius: 999px;
+    /* Remove default image */
+    background-image: none !important;
+    box-shadow: 0 0 15px rgba(34, 211, 238, 0.6);
+    transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Footer */
+#unity-footer {
+    position: relative;
+    height: 48px;
+    background: #1e293b;
+    /* Matches darker parts of bg */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    /* Spreads title and button */
+    padding: 0 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.unity-mobile #unity-footer {
+    display: none;
+}
+
+#unity-build-title {
+    font-weight: 600;
+    font-size: 14px;
+    color: #94a3b8;
+    /* Muted text */
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+#unity-fullscreen-button {
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    background: url('fullscreen-button.png') no-repeat center;
+    background-size: contain;
+    opacity: 0.6;
+    transition: all 0.2s ease;
+    border-radius: 8px;
+}
+
+#unity-fullscreen-button:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* Warning Banner */
+#unity-warning {
+    position: absolute;
+    left: 50%;
+    top: 5%;
+    transform: translateX(-50%);
+    background: rgba(239, 68, 68, 0.9);
+    /* Red-500 */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    display: none;
+    font-weight: 500;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    z-index: 30;
+    backdrop-filter: blur(4px);
+}
